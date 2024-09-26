@@ -1,0 +1,69 @@
+{
+  "name": "Tyk Test Keyless API",
+  "api_id": "keyless",
+  "org_id": "default",
+  "definition": {
+    "location": "header",
+    "key": "version"
+  },
+  "use_keyless": true,
+  "version_data": {
+    "not_versioned": true,
+    "versions": {
+      "Default": {
+        "name": "Default"
+      }
+    }
+  },
+  "custom_middleware": {
+    "driver": "goplugin",
+    "pre": [
+      {
+        "disabled": false,
+        "name": "ValidateCorrelationIdHeader",
+        "path": "/opt/tyk-gateway/middleware/AAIM-Plugins.so",
+        "require_session": false,
+        "raw_body_only": false
+      },
+      {
+        "disabled": false,
+        "name": "ValidateClientHeader",
+        "path": "/opt/tyk-gateway/middleware/AAIM-Plugins.so",
+        "require_session": false,
+        "raw_body_only": false
+      }
+    ],
+    "post": [
+      {
+        "disabled": false,
+        "name": "AddFooBarHeader",
+        "path": "/opt/tyk-gateway/middleware/Alpha-A.so",
+        "require_session": false,
+        "raw_body_only": false
+      }
+    ],
+    "response": [
+      {
+        "disabled": false,
+        "name": "ResponseMiddleware",
+        "path": "/opt/tyk-gateway/middleware/Alpha-A.so",
+        "require_session": false,
+        "raw_body_only": false
+      }
+    ]
+  },
+  "config_data": {
+    "test": "Bart",
+    "apikey": "k3ys27h3c4s713",
+    "routes": {
+      "default": "https://jsonplaceholder.typicode.com/todos/1",
+      "qa2": "https://jsonplaceholder.typicode.com/todos/2",
+      "qa3": "https://jsonplaceholder.typicode.com/todos/3"
+    }
+  },
+  "proxy": {
+    "listen_path": "/keyless-test/",
+    "target_url": "https://httbin.org",
+    "strip_listen_path": true
+  }
+}
