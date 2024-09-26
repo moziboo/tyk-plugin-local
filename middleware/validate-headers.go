@@ -22,7 +22,7 @@ func LogHost(rw http.ResponseWriter, r *http.Request) {
 }
 
 func ValidateHeaders(rw http.ResponseWriter, r *http.Request) {
-	headersToCheck := []string{"Asurion-Client", "Asurion-CorrelationID"}
+	headersToCheck := []string{"Client", "CorrelationID"}
 	var errors []string
 
 	for _, header := range headersToCheck {

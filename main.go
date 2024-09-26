@@ -12,12 +12,17 @@ func middleWare(rw http.ResponseWriter, r *http.Request) {
 	//middleware.AddHostHeaderToRequest(trw, r)
 
 	// First check
-	middleware.AddApiKeyToHeader(trw, r)
+	middleware.ValidateHeaders(trw, r)
 	if trw.HasWritten() {
 		return // Stop further processing since the response has been written
 	}
 
-	middleware.CheckContext(trw, r)
+	middleware.AddFooBarHeader(trw, r)
+	if trw.HasWritten() {
+		return // Stop further processing since the response has been written
+	}
+
+	middleware.AddApiKeyToHeader(trw, r)
 	if trw.HasWritten() {
 		return // Stop further processing since the response has been written
 	}
